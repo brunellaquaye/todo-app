@@ -50,7 +50,7 @@ app.post("/postdata", (req, res) => {
 });
 
 // get all data
-// use async and await for asynchronous progrmamin
+
 app.get("/fetchdata", (req, res) => {
   console.log("Recieved get request: ", req.body);
 
@@ -113,7 +113,6 @@ app.delete("/deletebyTitle/:title", (req, res) => {
   });
 });
 
-// Find a way to write one query that can handle the update of any part
 // for now,update all parts seperaetely
 app.put("/updateid/:id", (req, res) => {
   const id = req.params.id;
@@ -210,32 +209,6 @@ app.use((error, req, res, next) => {
     message: error.message,
   });
 });
-
-// app.use((error, req, res,next)=>{
-//   // this is to be able to handle the other status codes that the various apis may bring
-
-//   res.statusCode || error.statusCode || 500;
-//   error.status = error.status || 'error';
-
-//   res.status(error.statusCode).json({
-//     status: error.statusCode,
-//     message:error.message
-//   })
-// })
-
-// define a global error handling middleware
-// To make it global, you have to pass in 4 variable
-// app.use((error, req, res,next)=>{
-//   // this is to be able to handle the other status codes that the various apis may bring
-
-//   res.statusCode || error.statusCode || 500;
-//   error.status = error.status || 'error';
-
-//   res.status(error.statusCode).json({
-//     status: error.statusCode,
-//     message:error.message
-//   })
-// })
 
 app.listen(3000, () => {
   console.log("Server is running");
