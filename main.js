@@ -1,4 +1,4 @@
-const { Client } = require("pg");
+const { Client, Result } = require("pg");
 // to define the routes to be used, you will need express to that, so you will import it and define the app and use the app variable to create the CRUD operations
 const express = require("express");
 // define the host name,username and port
@@ -25,15 +25,14 @@ connection.connect().then(() => console.log("connected"));
 app.post("/postdata", (req, res) => {
   console.log("Received POST request:", req.body);
 
-  const { id,title, description, due_date, priority,completed } = req.body;
+  const { id, title, description, due_date, priority, completed } = req.body;
 
-   
   const post_query =
     "INSERT INTO tasks (id,title,description,due_date,priority,completed) VALUES ($1,$2,$3,$4,$5,$6)";
 
   connection.query(
     post_query,
-    [id, title, description, due_date, priority,completed],
+    [id, title, description, due_date, priority, completed],
     (err, result) => {
       if (err) {
         console.error("Postgres error:", err);
@@ -42,7 +41,8 @@ app.post("/postdata", (req, res) => {
         console.error("No title specified", err);
         res.status(500).json({ error: err.message, code: err.code });
       } else {
-        res.send("Posted Data");
+        // this is to return request body( what you posted back in postman)(use, req.body)
+        res.json(req.body);
         console.log(result);
       }
     }
@@ -50,11 +50,12 @@ app.post("/postdata", (req, res) => {
 });
 
 // get all data
+// use async and await for asynchronous progrmamin
 app.get("/fetchdata", (req, res) => {
   console.log("Recieved get request: ", req.body);
 
   const fetch_query = "Select * from tasks";
-  connection.query(fetch_query, (err, result) => {
+  connection.query(fetch_query, (err, result, next) => {
     if (err) {
       res.send("Postgres error:", err);
     } else {
@@ -62,6 +63,7 @@ app.get("/fetchdata", (req, res) => {
     }
   });
 });
+
 // fetch sorted data
 app.get("/fetchbySorted", (req, res) => {
   const fetch_query = "SELECT * FROM tasks ORDER BY priority, due_date";
@@ -77,18 +79,18 @@ app.get("/fetchbySorted", (req, res) => {
 
 // filter by completion status
 app.get("/fetchbycompleted/:completeStatus", (req, res) => {
-  const completeStatus = req.params.completeStatus
+  const completeStatus = req.params.completeStatus;
 
   let statusValue = false;
-  if (completeStatus === "completed"){
-    statusValue = true
-  }else{
-    statusValue = false
+  if (completeStatus === "completed") {
+    statusValue = true;
+  } else {
+    statusValue = false;
   }
 
   const fetch_query = "SELECT * FROM tasks WHERE completed = $1";
 
-  connection.query(fetch_query,[completeStatus],(err, result) => {
+  connection.query(fetch_query, [completeStatus], (err, result) => {
     if (err) {
       res.send(err);
     } else {
@@ -96,9 +98,6 @@ app.get("/fetchbycompleted/:completeStatus", (req, res) => {
     }
   });
 });
-
-
-
 
 // delete item by title
 app.delete("/deletebyTitle/:title", (req, res) => {
@@ -108,7 +107,8 @@ app.delete("/deletebyTitle/:title", (req, res) => {
     if (err) {
       res.send(err);
     } else {
-      res.send("deleted");
+      //  res.json(result)
+      res.send(result.rows);
     }
   });
 });
@@ -117,6 +117,7 @@ app.delete("/deletebyTitle/:title", (req, res) => {
 // for now,update all parts seperaetely
 app.put("/updateid/:id", (req, res) => {
   const id = req.params.id;
+  const title = req.params.title;
 
   const update_query = "UPDATE tasks SET title = $1 WHERE id = $2";
   connection.query(update_query, [title, id], (err, result) => {
@@ -124,52 +125,51 @@ app.put("/updateid/:id", (req, res) => {
       res.send(err);
     } else {
       res.send("Title Updated");
-      console.log(result)
+      console.log(result);
     }
   });
 });
 
 app.put("/updatedescription/:id", (req, res) => {
   const id = req.params.id;
-  const description = req.body.description
+  const description = req.body.description;
 
   const update_query = "UPDATE tasks SET description = $1 WHERE id = $2";
-  connection.query(update_query, [description,id],(err, result) => {
+  connection.query(update_query, [description, id], (err, result) => {
     if (err) {
       res.send(err);
     } else {
       res.send("description Updated");
-      console.log(result)
+      console.log(result);
     }
   });
 });
 
-
 app.put("/updatedueDate/:id", (req, res) => {
   const id = req.params.id;
-  const due_date = req.body.due_date
+  const due_date = req.body.due_date;
 
   const update_query = "UPDATE tasks SET due_date = $1 WHERE id = $2";
-  connection.query(update_query, [due_date,id],(err, result) => {
+  connection.query(update_query, [due_date, id], (err, result) => {
     if (err) {
       res.send(err);
     } else {
       res.send("Due date Updated");
-      console.log(result)
+      console.log(result);
     }
   });
 });
 app.put("/updatepriority/:id", (req, res) => {
   const id = req.params.id;
-  const priority = req.body.priority
+  const priority = req.body.priority;
 
   const update_query = "UPDATE tasks SET priority = $1 WHERE id = $2";
-  connection.query(update_query, [priority,id],(err, result) => {
+  connection.query(update_query, [priority, id], (err, result) => {
     if (err) {
       res.send(err);
     } else {
       res.send("Due date Updated");
-      console.log(result)
+      console.log(result);
     }
   });
 });
@@ -177,7 +177,7 @@ app.put("/updatepriority/:id", (req, res) => {
 // update the completed checkbox
 app.put("/updateCompleted/:id", (req, res) => {
   const id = req.params.id;
-  const completed = req.params.completed
+  const completed = req.params.completed;
 
   const update_query = "UPDATE tasks SET completed = $1 WHERE id=$2";
   connection.query(update_query, [completed, id], (err, result) => {
@@ -185,42 +185,57 @@ app.put("/updateCompleted/:id", (req, res) => {
       res.send(err);
     } else {
       res.send("Item has been completed");
-      console.log(result)
+      console.log(result);
     }
   });
 });
 
+app.all("*", (req, res, next) => {
+  // res.status(404).json({
+  //   status: "fail",
+  //   message: `Can't find ${req.originalUrl} on the server!`,
+  // });
+  const err = new Error(`Can't find ${req.originalUrl} on the server!`);
+  err.status = "fail";
+  err.statusCode = 404;
 
+  next(err);
+});
 
+app.use((error, req, res, next) => {
+  error.statusCode = error.statusCode || 500;
+  error.status = error.status || "error";
+  res.status(error.statusCode).json({
+    status: error.statusCode,
+    message: error.message,
+  });
+});
 
+// app.use((error, req, res,next)=>{
+//   // this is to be able to handle the other status codes that the various apis may bring
 
-// app.put("/updateTitle/:title", async(req, res) => {
-//   const id =req.params.id;
-//   // const taskExist = await Task.findOne({id:id})
-//   // if (!taskExist){
-//   //   return res.send(err)
-//   // }else{
-//   //   constUpdateTask = await Task.findByIdAndUpdate(id,req.body,{new})
-//   // }
-//   const { title, description, due_date, priority } = req.body;
-//   const fields = [];
-//   const values = [];
+//   res.statusCode || error.statusCode || 500;
+//   error.status = error.status || 'error';
 
-//   if (req.body.title){
-//     fields.push
-//   }
+//   res.status(error.statusCode).json({
+//     status: error.statusCode,
+//     message:error.message
+//   })
+// })
 
+// define a global error handling middleware
+// To make it global, you have to pass in 4 variable
+// app.use((error, req, res,next)=>{
+//   // this is to be able to handle the other status codes that the various apis may bring
 
-//   const update_query = "Update from tasks where title = $1";
-//   connection.query(update_query, [title], (err, result) => {
-//     if (err) {
-//       res.send(err);
-//     } else {
-//       res.send("Title Updated");
-//       console.log(result)
-//     }
-//   });
-// });
+//   res.statusCode || error.statusCode || 500;
+//   error.status = error.status || 'error';
+
+//   res.status(error.statusCode).json({
+//     status: error.statusCode,
+//     message:error.message
+//   })
+// })
 
 app.listen(3000, () => {
   console.log("Server is running");
