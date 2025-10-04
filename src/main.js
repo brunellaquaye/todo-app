@@ -114,7 +114,7 @@ app.delete("/deletebyTitle/:title", (req, res) => {
 });
 
 // for now,update all parts seperaetely
-app.put("/updateid/:id", (req, res) => {
+app.p("/updateid/:id", (req, res) => {
   const id = req.params.id;
   const title = req.params.title;
 
