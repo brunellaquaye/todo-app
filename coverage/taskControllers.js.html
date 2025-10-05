@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.22% </span>
+                <span class="strong">49.07% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>78/108</span>
+                <span class='fraction'>53/108</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.61% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/13</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.22% </span>
+                <span class="strong">49.07% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>78/108</span>
+                <span class='fraction'>53/108</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -218,29 +218,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -257,8 +244,21 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -329,33 +329,33 @@ exports.createTask = async(req, res) =&gt; {
 &nbsp;
 &nbsp;
 &nbsp;
-exports.getTask =  async(req, res) =&gt; {
-  
+exports.getTask =  <span class="fstat-no" title="function not covered" >async(req, res) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  </span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  try{</span>
+<span class="cstat-no" title="statement not covered" >    const tasks = await prisma.tasks.findMany()</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    return res.status(200).json(tasks)</span>
+<span class="cstat-no" title="statement not covered" >  }catch{</span>
+<span class="cstat-no" title="statement not covered" >    return res.status(500).json({error:error.message})</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-  try{
-    const tasks = await prisma.tasks.findMany()
 &nbsp;
-    return res.status(200).json(tasks)
-  }catch(error){
-    return res.status(500).json({error:error.message})
-  }
-};
-&nbsp;
-&nbsp;
-exports.updateTasks = async(req, res) =&gt;{
-    try{
-        // check to see if the data you are trying to update exists or not
-        if (!await prisma.tasks.findFirst({where: {id : parseInt(req.params.id)}})){
-            return res.status(404).json({error: 'Tasks not found'})
-        }
-&nbsp;
-        if (!req.body.title ){
-            return res.status(422).json({error: 'Title is required'})
-        }
-&nbsp;
-        if (await prisma.tasks.findFirst({where : {title: req.body.title}})){
-            return res.status(409).json({error:`${req.body.title} tasks already exists`})
-<span class="branch-0 cbranch-no" title="branch not covered" >        }</span>
+exports.updateTasks = <span class="fstat-no" title="function not covered" >async(req, res) =&gt;{</span>
+<span class="cstat-no" title="statement not covered" >    try{</span>
+<span class="cstat-no" title="statement not covered" >        // check to see if the data you are trying to update exists or not</span>
+<span class="cstat-no" title="statement not covered" >        if (!await prisma.tasks.findFirst({where: {id : parseInt(req.params.id)}})){</span>
+<span class="cstat-no" title="statement not covered" >            return res.status(404).json({error: 'Tasks not found'})</span>
+<span class="cstat-no" title="statement not covered" >        }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >        if (!req.body.title ){</span>
+<span class="cstat-no" title="statement not covered" >            return res.status(422).json({error: 'Name is required'})</span>
+<span class="cstat-no" title="statement not covered" >        }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >        if (await prisma.tasks.findFirst({where : {title: req.body.title}})){</span>
+<span class="cstat-no" title="statement not covered" >            return res.status(409).json({error:`${req.body.title} tasks already exists`})</span>
+<span class="cstat-no" title="statement not covered" >        }</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >        const updatedtasks = await prisma.tasks.update({</span>
 <span class="cstat-no" title="statement not covered" >            data: {</span>
@@ -369,8 +369,8 @@ exports.updateTasks = async(req, res) =&gt;{
 <span class="cstat-no" title="statement not covered" >    }catch(error){</span>
 <span class="cstat-no" title="statement not covered" >        return res.status(500).json({error : error.message})</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
-&nbsp;
-}
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 &nbsp;
 &nbsp;
@@ -406,7 +406,7 @@ exports.deleteTasks = <span class="fstat-no" title="function not covered" >async
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-05T04:12:44.532Z
+                at 2025-10-05T03:01:40.926Z
             </div>
         <script src="prettify.js"></script>
         <script>

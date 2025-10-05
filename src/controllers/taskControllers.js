@@ -47,7 +47,7 @@ exports.getTask =  async(req, res) => {
     const tasks = await prisma.tasks.findMany()
 
     return res.status(200).json(tasks)
-  }catch{
+  }catch(error){
     return res.status(500).json({error:error.message})
   }
 };
@@ -61,7 +61,7 @@ exports.updateTasks = async(req, res) =>{
         }
 
         if (!req.body.title ){
-            return res.status(422).json({error: 'Name is required'})
+            return res.status(422).json({error: 'Title is required'})
         }
 
         if (await prisma.tasks.findFirst({where : {title: req.body.title}})){
