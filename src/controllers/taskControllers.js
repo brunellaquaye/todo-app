@@ -103,7 +103,7 @@ exports.deleteTasks = async(req, res) => {
 
     return res.status(204).send()
   }catch(error){
-    return res.status(500).json({error: error.mesage})
+    return res.status(500).json({error: error.message})
   }
 };
 

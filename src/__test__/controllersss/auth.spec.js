@@ -8,13 +8,14 @@ jest.mock('@prisma/client', ()=>{
             findFirst:jest.fn(),
             update:jest.fn(),
             create:jest.fn(),
+            delete:jest.fn(),
             findMany:jest.fn()
         }
     }
     return {PrismaClient:jest.fn(()=>mockPrisma)}
 })
 
-const { createTask, updateTasks, getTask } = require('../../controllers/taskControllers');
+const { createTask, updateTasks, getTask, deleteTasks } = require('../../controllers/taskControllers');
 
 
 const { PrismaClient } = require('@prisma/client');
@@ -189,4 +190,105 @@ it('should send status code of 409 when tasks already exists', async()=>{
     )
     });
 
+it('should send status code of 200 when tasks  updated', async()=>{
+    // create or stub data or mock for the system that we are using
+    prisma.tasks.findFirst.mockResolvedValueOnce({id:1}).mockResolvedValueOnce(null)
 
+    prisma.tasks.update.mockResolvedValueOnce({
+  id: 1,
+  title: 'fake_title',
+  description: 'fake_description',
+  due_date: 'fake_date',
+  priority: 'fake_priority',
+  completed: 'false'
+});
+
+
+    await updateTasks(req,res);
+
+
+    // write an assertion
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(
+        expect.objectContaining({
+            id:1,
+            title: 'fake_title' ,  
+            description: 'fake_description',
+            due_date: 'fake_date',
+            priority: 'fake_priority',
+            completed: 'false'
+    }
+        )
+    )
+    });
+
+
+    // it should return 500 if all fails 
+it('should send status code of 500 when task not updated and databse error', async()=>{
+     prisma.tasks.findFirst.mockImplementationOnce(() => { 
+    throw new Error('Database error'); 
+  });
+
+    await updateTasks(req,res);
+
+
+    // write an assertion
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith(
+        expect.objectContaining({
+            error:expect.any(String),
+        })
+    )
+    });
+;
+
+
+
+// unit tests for delete
+it('should send status code of 404 when task not found', async()=>{
+    prisma.tasks.findFirst.mockResolvedValueOnce(null)
+    await deleteTasks(req,res);
+
+
+    // write an assertion
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith(
+        expect.objectContaining({
+            error:'Task not found',
+        })
+    )
+    });
+;
+
+  it('should delete task and return 204 ', async () => {
+    prisma.tasks.findFirst.mockResolvedValueOnce({ id: 1 });
+    prisma.tasks.delete.mockResolvedValueOnce();
+
+    await deleteTasks(req, res);
+
+    expect(prisma.tasks.delete).toHaveBeenCalledWith({
+      where: { id: 1 },
+    });
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(res.json).toHaveBeenCalled();
+  });
+
+
+
+it('should send status code of 500 when task not deleted and databse error', async()=>{
+     prisma.tasks.findFirst.mockImplementationOnce(() => {
+    throw new Error(' error');
+  });
+
+    await deleteTasks(req,res);
+
+
+    // write an assertion
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith(
+        expect.objectContaining({
+            error:expect.any(String),
+        })
+    )
+    });
+;
