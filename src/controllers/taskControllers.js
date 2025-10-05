@@ -16,7 +16,7 @@ exports.createTask = async(req, res) => {
       if (await prisma.tasks.findFirst({
         where : {title: req.body.title}
       })) {
-        return res.status(500).json({ error: `${req.body.title} task already exists`, code: err.code });
+        return res.status(400).json({ error: `${req.body.title} task already exists`, code: err.code });
       } 
 
 
